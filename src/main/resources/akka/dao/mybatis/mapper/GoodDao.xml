@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="akka.dao.mybatis.mapper.GoodDao">
+    <resultMap type="akka.data.Good" id="goodResultMap">
+        <constructor>
+            <idArg column="ref" javaType="String" />
+            <arg column="type" javaType="String" />
+            <arg column="containerRef" javaType="String" />
+            <arg column="quantity" javaType="Int" />
+        </constructor>
+    </resultMap>
+
+    <select id="findByRef" resultMap="goodResultMap">
+        SELECT *
+        FROM goods
+        WHERE ref = #{ref}
+    </select>
+
+    <select id="findAllInContainer" resultMap="goodResultMap">
+        SELECT *
+        FROM goods
+        WHERE containerRef = #{containerRef}
+    </select>
+</mapper>

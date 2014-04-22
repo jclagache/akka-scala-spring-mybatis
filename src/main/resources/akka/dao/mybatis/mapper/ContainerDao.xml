@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="akka.dao.mybatis.mapper.ContainerDao">
+    <resultMap type="akka.data.Container" id="containerResultMap">
+        <constructor>
+            <idArg column="ref" javaType="String" />
+            <arg column="cargoRef" javaType="String" />
+        </constructor>
+    </resultMap>
+
+    <select id="findByRef" resultMap="containerResultMap">
+        SELECT *
+        FROM containers
+        WHERE ref = #{ref}
+    </select>
+
+    <select id="findAllInCargo" resultMap="containerResultMap">
+        SELECT *
+        FROM containers
+        WHERE cargoRef = #{cargoRef}
+    </select>
+</mapper>
