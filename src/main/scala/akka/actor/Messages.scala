@@ -21,5 +21,4 @@ object Messages {
 
   case class GetGoods(cargoRef: String)
   case class GoodResult(containerRef: String, goods: Seq[Good])
-
 }

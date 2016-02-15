@@ -5,7 +5,7 @@ import akka.actor.{Props, ActorSystem}
 import akka.actor.Messages._
 import akka.actor.MyTask
 import org.springframework.scala.context.function.FunctionalConfigApplicationContext
-import akka.config.{MyBatisConfig, ActorConfig}
+import akka.config.{MySQLMyBatisConfig, HSQLDBMyBatisConfig, MyBatisConfig, ActorConfig}
 import akka.config.extension.SpringExtentionImpl
 import org.joda.time.Interval
 
@@ -21,20 +21,17 @@ object Akka extends App {
   }
 
   // create a spring context
-  implicit val ctx = FunctionalConfigApplicationContext(classOf[MyBatisConfig],classOf[ActorConfig])
-
+  implicit val ctx = FunctionalConfigApplicationContext(classOf[MySQLMyBatisConfig],classOf[ActorConfig])
   // get hold of the actor system
   val system = ctx.getBean(classOf[ActorSystem])
 
-  val task = new MyTask(new Interval(50, 100)) {
+  val taskActor = system.actorOf(Props(new MyTask(new Interval(50, 100)) {
     // use the Spring Extension to create props for a named actor bean
     cargoWorkerRouter = system.actorOf(SpringExtentionImpl(system).props("cargoWorker"), "cargoWorkerRouter")
     containerWorkerRouter = system.actorOf(SpringExtentionImpl(system).props("containerWorker"), "containerWorkerRouter")
     goodWorkerRouter = system.actorOf(SpringExtentionImpl(system).props("goodWorker"), "goodWorkerRouter")
     xmlWorker = system.actorOf(SpringExtentionImpl(system).props("xmlWorker"), "xmlBuilder")
-  }
-
-  val taskActor = system.actorOf(Props(task), "master")
+  }), "master")
 
   time {
     taskActor ! StartBatch
