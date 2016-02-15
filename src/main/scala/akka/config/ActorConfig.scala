@@ -3,7 +3,7 @@ package akka.config
 import org.springframework.scala.context.function.FunctionalConfiguration
 
 import org.springframework.beans.factory.config.BeanDefinition
-import akka.actor.worker.{XmlWorker, GoodWorker, ContainerWorker, CargoWorker}
+import akka.actor.worker._
 import akka.actor.ActorSystem
 import akka.config.extension.SpringExtentionImpl
 import akka.dao.mybatis.mapper.{CargoDao, GoodDao, ContainerDao}
@@ -47,5 +47,4 @@ class ActorConfig extends FunctionalConfiguration {
   val xmlWorker = prototype("xmlWorker") {
     new XmlWorker
   }
-
 }

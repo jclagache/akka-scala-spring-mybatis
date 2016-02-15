@@ -1,5 +1,7 @@
 package akka.config
 
+import org.apache.commons.dbcp.BasicDataSource
+import org.springframework.context.ApplicationContext
 import org.springframework.scala.context.function.{ContextSupport, FunctionalConfiguration}
 import org.mybatis.spring.{SqlSessionTemplate, SqlSessionFactoryBean}
 import javax.sql.DataSource
@@ -10,7 +12,6 @@ import org.mybatis.spring.mapper.MapperScannerConfigurer
  * Created by j-c.lagache on 17/04/2014.
  */
 abstract class MyBatisConfig extends FunctionalConfiguration with ContextSupport {
-
   def dataSource: DataSource
 
   bean("sqlSessionFactory") {
@@ -33,5 +34,4 @@ abstract class MyBatisConfig extends FunctionalConfiguration with ContextSupport
       setSqlSessionTemplateBeanName("sqlSessionTemplate")
     }
   }
-
 }
